@@ -10,6 +10,10 @@ class Worker
         foreach ($dirArr as $dir) {
             // 查出文件夹下所有文件 glob
             $arr = glob("./" . $dir . "/*.md");
+            // 过滤掉新生成的文件
+            $arr = array_filter($arr, function ($v, $k) {
+                                return strpos($v, "_") === false;
+                            }, ARRAY_FILTER_USE_BOTH);
             // var_dump($arr);
             $res = array_merge($res, $arr);
         }
@@ -75,7 +79,7 @@ class Worker
             // }
             fclose($handle);
             // fclose($handle1);
-            // file_put_contents($ntitle, $str); // 写入新文件
+            file_put_contents($ntitle, $str); // 写入新文件
             // file_put_contents($ntitle, $str, FILE_APPEND);
         }
         // 匹配图片
